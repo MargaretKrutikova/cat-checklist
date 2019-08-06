@@ -1,48 +1,47 @@
-import * as React from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import * as React from "react"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import Container from "@material-ui/core/Container"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Typography from "@material-ui/core/Typography"
+import Button from "@material-ui/core/Button"
 
-import "./App.css";
-import { ChecklistStepper } from "./ChecklistStepper";
-import { userExists } from "./data";
-import LoginModal from "./LoginModal";
-import { UserContextProvider } from "./UserContext";
-import { getDisplayUserName } from "./data";
+import "./App.css"
+import { ChecklistStepper } from "./ChecklistStepper"
+import { userExists } from "./data"
+import LoginModal from "./LoginModal"
+import { UserContextProvider } from "./UserContext"
+import { getDisplayUserName } from "./data"
 
-const localStorageUsernameKey = "LOGGED_IN_USER";
-const getCurrentUser = () => localStorage.getItem(localStorageUsernameKey);
+const localStorageUsernameKey = "LOGGED_IN_USER"
+const getCurrentUser = () => localStorage.getItem(localStorageUsernameKey)
 const setCurrentUser = (userName: string) =>
-  localStorage.setItem(localStorageUsernameKey, userName);
-const removeCurrentUser = () =>
-  localStorage.removeItem(localStorageUsernameKey);
+  localStorage.setItem(localStorageUsernameKey, userName)
+const removeCurrentUser = () => localStorage.removeItem(localStorageUsernameKey)
 
 const App: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  const [userName, setUserName] = React.useState("");
+  const [open, setOpen] = React.useState(false)
+  const [userName, setUserName] = React.useState("")
 
   React.useEffect(() => {
-    const storedUsername = getCurrentUser();
+    const storedUsername = getCurrentUser()
     if (storedUsername && userExists(storedUsername)) {
-      setUserName(storedUsername);
+      setUserName(storedUsername)
     } else {
-      setOpen(true);
+      setOpen(true)
     }
-  }, []);
+  }, [])
 
   const handleLogin = (name: string) => {
-    setUserName(name);
-    setCurrentUser(name);
-    setOpen(false);
-  };
+    setUserName(name)
+    setCurrentUser(name)
+    setOpen(false)
+  }
 
   const handleLogout = () => {
-    removeCurrentUser();
-    setUserName("");
-  };
+    removeCurrentUser()
+    setUserName("")
+  }
 
   return (
     <>
@@ -67,7 +66,7 @@ const App: React.FC = () => {
           )}
         </Toolbar>
       </AppBar>
-      <div className="App" style={{ paddingTop: 30 }}>
+      <div className="App" style={{ paddingTop: 30, paddingBottom: 30 }}>
         <CssBaseline />
         <LoginModal
           open={open}
@@ -83,7 +82,7 @@ const App: React.FC = () => {
         </Container>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
