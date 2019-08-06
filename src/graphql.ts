@@ -44,7 +44,7 @@ export const SetCheckedMutation = gql`
       }
       on_conflict: {
         constraint: checklist_pkey
-        update_columns: [checked, doneDate, userName]
+        update_columns: [checked, doneDate, userName, note]
       }
     ) {
       returning {

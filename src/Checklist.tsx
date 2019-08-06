@@ -60,7 +60,7 @@ export const Checklist: React.FC<Props> = props => {
           <ChecklistItem
             code={item.code}
             name={item.name}
-            note={item.note}
+            details={item.details}
             dueDate={props.dueDate}
             requireEnterResult={item.requireEnterResult || false}
             {...getChecklistItem(item)}

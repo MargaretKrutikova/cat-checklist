@@ -1,14 +1,10 @@
 import isSameDay from "date-fns/is_same_day"
 
-export const START_DATE = new Date("8/6/2019")
+export const START_DATE = new Date("8/7/2019")
 
 export const END_DATE = new Date("8/13/2019")
 
-const medicineDates = [
-  new Date("8/6/2019"),
-  new Date("8/7/2019"),
-  new Date("8/8/2019")
-]
+const medicineDates = [new Date("8/7/2019"), new Date("8/8/2019")]
 
 export const shouldGiveMedicine = (date: Date) =>
   !!medicineDates.find(d => isSameDay(d, date))
@@ -17,7 +13,7 @@ export const MEDICINE_CHECKLIST_ITEMS: ItemsInfo = {
   morning: [
     {
       name: "Дать антибиотик Vetrimoxin",
-      note:
+      details:
         "0.5 таблетки разломать на 1/4 и дать с вкусняшкой или 10-15 г влажного корма",
       code: "GIVE_MEDICINE_MORNING",
       requireEnterResult: true
@@ -35,7 +31,7 @@ export const MEDICINE_CHECKLIST_ITEMS: ItemsInfo = {
 export type ChecklistItemInfo = {
   name: string
   code: string
-  note?: string
+  details?: string
   requireEnterResult?: boolean
 }
 
@@ -49,12 +45,12 @@ export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
     { name: "Поменять воду (3 места)", code: "CHANGE_WATER_MORNING" },
     {
       name: "Дать вкусняшку ",
-      note: "2-3 кубика тунца сухого",
+      details: "2-3 кубика тунца сухого",
       code: "GIVE_TASTY_FOOD_MORNING"
     },
     {
       name: "Проверить дверь в туалет ",
-      note: "Должна быть открыта",
+      details: "Должна быть открыта",
       code: "CHECK_TOILET_DOOR_MORNING"
     }
   ],
@@ -63,7 +59,7 @@ export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
     { name: "Дать вкусняшку (2-3 штуки)", code: "GIVE_TASTY_FOOD_EVENING" },
     {
       name: "Добавить еду чтоб было с горкой",
-      note: "Слева - красный, справа - синий",
+      details: "Слева - красный, справа - синий",
       code: "REFILL_FOOD_EVENING"
     },
     {
@@ -74,13 +70,13 @@ export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
     { name: "Промыть правую заднюю лапу с NaCl", code: "RINSE_PAW_EVENING" },
     {
       name: "Дать пол палки влажного корма",
-      note:
+      details:
         "Разогреть 5-10 сек 300Вт, должен быть не горячим, остальное в холодиник",
       code: "GIVE_MOIST_FOOD_EVENING"
     },
     {
       name: "Снять воротник чтобы мог умыться",
-      note: "Не давать вылизывать больную лапу!",
+      details: "Не давать вылизывать больную лапу!",
       code: "REMOVE_COLLAR_EVENING"
     },
     { name: "Одеть воротник", code: "PUT_ON_COLLAR_EVENING" },

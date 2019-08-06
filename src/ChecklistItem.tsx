@@ -26,6 +26,7 @@ type Props = ChecklistItemType & {
   name: string
   requireEnterResult: boolean
   dueDate: string
+  details?: string
 }
 
 const useStyles = makeStyles(theme => ({
@@ -105,12 +106,12 @@ export const ChecklistItem: React.FC<Props> = props => {
             label={props.name}
           />
         </FormGroup>
-        {!!props.note && (
+        {!!props.details && (
           <Typography
             style={{ textAlign: "left", marginBottom: 10 }}
             variant="body2"
           >
-            {props.note}
+            {props.details}
           </Typography>
         )}
         {props.checked && props.doneDate ? (
@@ -121,6 +122,14 @@ export const ChecklistItem: React.FC<Props> = props => {
             {toTimeFormat(new Date(props.doneDate))}
             {" - "}
             {getDisplayUserName(props.userName || "")}
+          </Typography>
+        ) : null}
+        {props.note ? (
+          <Typography
+            variant="h6"
+            style={{ marginBottom: 5, textAlign: "left" }}
+          >
+            {props.note}
           </Typography>
         ) : null}
       </FormControl>
