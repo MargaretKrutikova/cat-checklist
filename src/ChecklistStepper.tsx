@@ -7,26 +7,30 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import Button from "@material-ui/core/Button";
 
 import eachDay from "date-fns/each_day";
+import isEqual from "date-fns/is_equal";
+
 import { START_DATE, END_DATE } from "./data";
-import { toDateFormat } from "./utils";
+import { toDateFormat, getDayOfweek } from "./utils";
 import { Checklist } from "./Checklist";
 
 const dates = eachDay(START_DATE, END_DATE);
+const getIndexOfDate = (date: Date) => dates.findIndex(d => isEqual(d, date));
 
 export const ChecklistStepper: React.FC<{}> = () => {
-  // TODO: should be current date as init value
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = dates.length;
+  const [activeStep, setActiveStep] = React.useState(() => {
+    const index = getIndexOfDate(new Date());
+    return index === -1 ? 0 : index;
+  });
   const handleNext = () => setActiveStep(prevActiveStep => prevActiveStep + 1);
-
   const handleBack = () => setActiveStep(prevActiveStep => prevActiveStep - 1);
 
+  const maxSteps = dates.length;
   const currentDate = dates[activeStep];
   return (
     <>
       <div>
-        <Typography variant="h4" component="div">
-          {toDateFormat(currentDate)}
+        <Typography variant="h4" component="div" style={{ marginBottom: 30 }}>
+          {getDayOfweek(currentDate)}, {toDateFormat(currentDate)}
         </Typography>
         <>
           <Checklist dueDate={toDateFormat(currentDate)} />
