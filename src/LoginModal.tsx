@@ -46,15 +46,15 @@ const LoginModal: React.FC<Props> = props => {
         </FormControl>
       </DialogContent>
       <DialogActions>
+        <Button onClick={props.onClose} color="primary">
+          Skip
+        </Button>
         <Button
           onClick={() => props.onLogin(userName)}
           disabled={!userName}
           color="primary"
         >
           Login
-        </Button>
-        <Button onClick={props.onClose} color="primary">
-          Skip
         </Button>
       </DialogActions>
     </Dialog>
