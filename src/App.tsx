@@ -75,7 +75,9 @@ const App: React.FC = () => {
           onClose={() => setOpen(false)}
         />
         <Container maxWidth="sm">
-          <UserContextProvider value={{ userName }}>
+          <UserContextProvider
+            value={{ userName, onUnautorizedAccess: () => setOpen(true) }}
+          >
             <ChecklistStepper />
           </UserContextProvider>
         </Container>

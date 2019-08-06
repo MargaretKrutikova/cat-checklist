@@ -9,6 +9,8 @@ import {
   ChecklistByDateQuery
 } from "./graphql";
 import { toDateTimeFormat } from "./utils";
+import { useUserData } from "./UserContext";
+import isAfter from "date-fns/is_after";
 
 type Props = ChecklistItemType & {
   name: string;
@@ -16,6 +18,7 @@ type Props = ChecklistItemType & {
 };
 
 export const ChecklistItem: React.FC<Props> = props => {
+  const { userName, onUnautorizedAccess } = useUserData();
   const [setChecked] = useMutation(SetCheckedMutation, {
     refetchQueries: [
       {
@@ -25,16 +28,21 @@ export const ChecklistItem: React.FC<Props> = props => {
     ]
   });
 
-  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setChecked({
-      variables: {
-        checked: e.target.checked,
-        code: props.code,
-        dueDate: props.dueDate,
-        doneDate: toDateTimeFormat(new Date()),
-        userName: "rita"
-      }
-    });
+  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!userName) {
+      onUnautorizedAccess();
+    } else {
+      setChecked({
+        variables: {
+          checked: e.target.checked,
+          code: props.code,
+          dueDate: props.dueDate,
+          doneDate: toDateTimeFormat(new Date()),
+          userName
+        }
+      });
+    }
+  };
 
   return (
     <FormControlLabel
@@ -43,6 +51,7 @@ export const ChecklistItem: React.FC<Props> = props => {
           checked={props.checked}
           onChange={handleChecked}
           color="primary"
+          disabled={isAfter(new Date(props.dueDate), new Date())}
         />
       }
       label={props.name}
