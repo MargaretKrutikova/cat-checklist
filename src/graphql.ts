@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "apollo-boost"
 
 export const ChecklistByDateQuery = gql`
   query($dueDate: String!) {
@@ -7,20 +7,22 @@ export const ChecklistByDateQuery = gql`
       code
       doneDate
       userName
+      note
     }
   }
-`;
+`
 
 export type ChecklistItem = {
-  code: string;
-  checked?: boolean;
-  doneDate?: string | null;
-  userName?: string | null;
-};
+  code: string
+  checked?: boolean
+  doneDate?: string | null
+  userName?: string | null
+  note?: string | null
+}
 
 export type ChecklistByDateResponse = {
-  checklist: ChecklistItem[];
-};
+  checklist: ChecklistItem[]
+}
 
 export const SetCheckedMutation = gql`
   mutation setChecked(
@@ -29,6 +31,7 @@ export const SetCheckedMutation = gql`
     $dueDate: String!
     $doneDate: String!
     $userName: String!
+    $note: String
   ) {
     insert_checklist(
       objects: {
@@ -37,6 +40,7 @@ export const SetCheckedMutation = gql`
         doneDate: $doneDate
         dueDate: $dueDate
         userName: $userName
+        note: $note
       }
       on_conflict: {
         constraint: checklist_pkey
@@ -49,7 +53,8 @@ export const SetCheckedMutation = gql`
         doneDate
         dueDate
         userName
+        note
       }
     }
   }
-`;
+`

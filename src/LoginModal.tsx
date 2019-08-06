@@ -1,25 +1,25 @@
-import * as React from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import * as React from "react"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import Button from "@material-ui/core/Button"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
 
-import { Users } from "./data";
+import { Users } from "./data"
 
 type Props = {
-  open: boolean;
-  onLogin: (userName: string) => void;
-  onClose: () => void;
-};
+  open: boolean
+  onLogin: (userName: string) => void
+  onClose: () => void
+}
 
 const LoginModal: React.FC<Props> = props => {
-  const [userName, setUserName] = React.useState("");
+  const [userName, setUserName] = React.useState("")
 
   return (
     <Dialog open={props.open} aria-labelledby="form-dialog-title">
@@ -38,7 +38,9 @@ const LoginModal: React.FC<Props> = props => {
             }}
           >
             {Users.map(user => (
-              <MenuItem value={user.userName}>{user.displayName}</MenuItem>
+              <MenuItem key={user.userName} value={user.userName}>
+                {user.displayName}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -56,7 +58,7 @@ const LoginModal: React.FC<Props> = props => {
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default LoginModal;
+export default LoginModal
