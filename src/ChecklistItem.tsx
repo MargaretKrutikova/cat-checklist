@@ -1,8 +1,14 @@
 import * as React from "react";
-
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { useMutation } from "react-apollo-hooks";
+import isAfter from "date-fns/is_after";
+import format from "date-fns/format";
+
+import Checkbox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 import {
   SetCheckedMutation,
   ChecklistItem as ChecklistItemType,
@@ -10,7 +16,7 @@ import {
 } from "./graphql";
 import { toDateTimeFormat } from "./utils";
 import { useUserData } from "./UserContext";
-import isAfter from "date-fns/is_after";
+import { getDisplayUserName } from "./data";
 
 type Props = ChecklistItemType & {
   name: string;
@@ -37,7 +43,7 @@ export const ChecklistItem: React.FC<Props> = props => {
           checked: e.target.checked,
           code: props.code,
           dueDate: props.dueDate,
-          doneDate: toDateTimeFormat(new Date()),
+          doneDate: format(new Date()),
           userName
         }
       });
@@ -45,16 +51,26 @@ export const ChecklistItem: React.FC<Props> = props => {
   };
 
   return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={props.checked}
-          onChange={handleChecked}
-          color="primary"
-          disabled={isAfter(new Date(props.dueDate), new Date())}
+    <FormControl required component="fieldset">
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={props.checked}
+              onChange={handleChecked}
+              color="primary"
+              disabled={isAfter(new Date(props.dueDate), new Date())}
+            />
+          }
+          label={props.name}
         />
-      }
-      label={props.name}
-    />
+        {props.checked && props.doneDate ? (
+          <Typography>
+            {toDateTimeFormat(new Date(props.doneDate))},{" "}
+            {getDisplayUserName(props.userName || "")}
+          </Typography>
+        ) : null}
+      </FormGroup>
+    </FormControl>
   );
 };

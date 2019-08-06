@@ -5,16 +5,17 @@ import Typography from "@material-ui/core/Typography";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 
 import eachDay from "date-fns/each_day";
-import isEqual from "date-fns/is_equal";
+import isSameDay from "date-fns/is_same_day";
 
 import { START_DATE, END_DATE } from "./data";
 import { toDateFormat, getDayOfweek } from "./utils";
 import { Checklist } from "./Checklist";
 
 const dates = eachDay(START_DATE, END_DATE);
-const getIndexOfDate = (date: Date) => dates.findIndex(d => isEqual(d, date));
+const getIndexOfDate = (date: Date) => dates.findIndex(d => isSameDay(d, date));
 
 export const ChecklistStepper: React.FC<{}> = () => {
   const [activeStep, setActiveStep] = React.useState(() => {
@@ -26,15 +27,23 @@ export const ChecklistStepper: React.FC<{}> = () => {
 
   const maxSteps = dates.length;
   const currentDate = dates[activeStep];
+
   return (
     <>
       <div>
-        <Typography variant="h4" component="div" style={{ marginBottom: 30 }}>
+        <Typography variant="h4" component="div" style={{ marginBottom: 10 }}>
           {getDayOfweek(currentDate)}, {toDateFormat(currentDate)}
         </Typography>
-        <>
-          <Checklist dueDate={toDateFormat(currentDate)} />
-        </>
+        {!isSameDay(currentDate, new Date()) ? (
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => setActiveStep(getIndexOfDate(new Date()))}
+          >
+            Jump to today
+          </Link>
+        ) : null}
+        <Checklist dueDate={toDateFormat(currentDate)} />
       </div>
 
       <MobileStepper
