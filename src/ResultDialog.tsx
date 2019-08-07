@@ -10,13 +10,18 @@ import TextField from "@material-ui/core/TextField"
 type Props = {
   open: boolean
   onSave: (result: string) => void
+  onClose: () => void
 }
 
 const ResultDialog: React.FC<Props> = props => {
   const [result, setResult] = React.useState("")
 
   return (
-    <Dialog open={props.open} aria-labelledby="form-dialog-title">
+    <Dialog
+      open={props.open}
+      onClose={props.onClose}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title">How did it go?</DialogTitle>
       <DialogContent>
         <DialogContentText>

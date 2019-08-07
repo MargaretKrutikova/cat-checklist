@@ -94,7 +94,7 @@ export const ChecklistItem: React.FC<Props> = props => {
         dueDate: props.dueDate,
         doneDate: format(new Date()),
         note: enteredResult,
-        userName
+        userName: !checked ? null : userName
       }
     })
   }
@@ -103,6 +103,7 @@ export const ChecklistItem: React.FC<Props> = props => {
     <>
       <ResultDialog
         open={dialogOpen === "RESULT_REQUIRED"}
+        onClose={() => setDialogOpen(null)}
         onSave={result => {
           setDialogOpen(null)
           handleChecked(true, result)

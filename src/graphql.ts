@@ -30,7 +30,7 @@ export const SetCheckedMutation = gql`
     $code: String!
     $dueDate: String!
     $doneDate: String!
-    $userName: String!
+    $userName: String
     $note: String
   ) {
     insert_checklist(
