@@ -2,6 +2,7 @@ import * as React from "react"
 import { useMutation } from "react-apollo-hooks"
 import isAfter from "date-fns/is_after"
 import format from "date-fns/format"
+import differenceInMinutes from "date-fns/difference_in_minutes"
 
 import Checkbox from "@material-ui/core/Checkbox"
 import Typography from "@material-ui/core/Typography"
@@ -21,6 +22,7 @@ import { toTimeFormat } from "./utils"
 import { useUserData } from "./UserContext"
 import { getDisplayUserName } from "./data"
 import ResultDialog from "./ResultDialog"
+import { AlertDialog } from "./Alert"
 
 type Props = ChecklistItemType & {
   name: string
@@ -41,9 +43,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+type OpenDialog =
+  | "WRONG_OWNER_ERROR"
+  | "TIME_EXPIRED_ERROR"
+  | "RESULT_REQUIRED"
+  | null
+
 export const ChecklistItem: React.FC<Props> = props => {
   const classes = useStyles()
-  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState<OpenDialog>(null)
 
   const { userName, onUnautorizedAccess } = useUserData()
 
@@ -62,7 +70,20 @@ export const ChecklistItem: React.FC<Props> = props => {
       return
     }
     if (checked && props.requireEnterResult && enteredResult === null) {
-      setDialogOpen(true)
+      setDialogOpen("RESULT_REQUIRED")
+      return
+    }
+
+    if (!checked && props.userName && props.userName !== userName) {
+      setDialogOpen("WRONG_OWNER_ERROR")
+      return
+    }
+
+    if (
+      props.doneDate &&
+      differenceInMinutes(new Date(), props.doneDate) > 60
+    ) {
+      setDialogOpen("TIME_EXPIRED_ERROR")
       return
     }
 
@@ -81,11 +102,23 @@ export const ChecklistItem: React.FC<Props> = props => {
   return (
     <>
       <ResultDialog
-        open={dialogOpen}
+        open={dialogOpen === "RESULT_REQUIRED"}
         onSave={result => {
-          setDialogOpen(false)
+          setDialogOpen(null)
           handleChecked(true, result)
         }}
+      />
+      <AlertDialog
+        open={dialogOpen === "WRONG_OWNER_ERROR"}
+        title="Not allowed to edit"
+        message="You can only edit items you have checked, this item belongs to a different user"
+        onClose={() => setDialogOpen(null)}
+      />
+      <AlertDialog
+        open={dialogOpen === "TIME_EXPIRED_ERROR"}
+        title="Not allowed to edit"
+        message="You can't edit items one hour after it has been last edited"
+        onClose={() => setDialogOpen(null)}
       />
       <FormControl required component="fieldset">
         <FormGroup>
