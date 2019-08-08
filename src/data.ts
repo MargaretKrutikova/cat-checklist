@@ -69,7 +69,7 @@ export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
     },
     { name: "Промыть правую заднюю лапу с NaCl", code: "RINSE_PAW_EVENING" },
     {
-      name: "Дать пол палки влажного корма",
+      name: "Дать пол пачки влажного корма",
       details:
         "Разогреть 5-10 сек 300Вт, должен быть не горячим, остальное в холодиник",
       code: "GIVE_MOIST_FOOD_EVENING"
