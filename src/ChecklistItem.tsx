@@ -81,6 +81,7 @@ export const ChecklistItem: React.FC<Props> = props => {
 
     if (
       props.doneDate &&
+      props.checked &&
       differenceInMinutes(new Date(), props.doneDate) > 60
     ) {
       setDialogOpen("TIME_EXPIRED_ERROR")
@@ -118,7 +119,7 @@ export const ChecklistItem: React.FC<Props> = props => {
       <AlertDialog
         open={dialogOpen === "TIME_EXPIRED_ERROR"}
         title="Not allowed to edit"
-        message="You can't edit items one hour after it has been last edited"
+        message="You can't uncheck an item one hour after it was checked"
         onClose={() => setDialogOpen(null)}
       />
       <FormControl required component="fieldset">
