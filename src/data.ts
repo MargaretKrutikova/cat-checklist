@@ -43,6 +43,7 @@ export type ItemsInfo = {
 export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
   morning: [
     { name: "Поменять воду (3 места)", code: "CHANGE_WATER_MORNING" },
+    { name: "Почистить туалет", code: "CLEAN_TOILET_MORNING" },
     {
       name: "Дать вкусняшку ",
       details: "2-3 кубика тунца сухого",
@@ -56,6 +57,7 @@ export const STANDARD_CHECKLIST_ITEMS: ItemsInfo = {
   ],
   evening: [
     { name: "Открыть окна", code: "OPEN_WINDOWS_EVENING" },
+    { name: "Почистить туалет", code: "CLEAN_TOILET_EVENING" },
     { name: "Дать вкусняшку (2-3 штуки)", code: "GIVE_TASTY_FOOD_EVENING" },
     {
       name: "Добавить еду чтоб было с горкой",
