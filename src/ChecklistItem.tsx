@@ -8,7 +8,6 @@ import Checkbox from "@material-ui/core/Checkbox"
 import Typography from "@material-ui/core/Typography"
 import FormControl from "@material-ui/core/FormControl"
 import FormGroup from "@material-ui/core/FormGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
 import { makeStyles } from "@material-ui/core/styles"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
@@ -39,6 +38,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3)
   },
   label: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: -11,
+    marginRight: 16,
     textAlign: "left"
   }
 }))
@@ -124,22 +127,17 @@ export const ChecklistItem: React.FC<Props> = props => {
       />
       <FormControl required component="fieldset">
         <FormGroup>
-          <FormControlLabel
-            classes={{
-              label: classes.label
-            }}
-            control={
-              <Checkbox
-                checked={props.checked}
-                onChange={e => handleChecked(e.target.checked, null)}
-                color="primary"
-                disabled={isAfter(new Date(props.dueDate), new Date())}
-                icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                checkedIcon={<CheckBoxIcon fontSize="large" />}
-              />
-            }
-            label={props.name}
-          />
+          <div className={classes.label}>
+            <Checkbox
+              checked={props.checked}
+              onChange={e => handleChecked(e.target.checked, null)}
+              color="primary"
+              disabled={isAfter(new Date(props.dueDate), new Date())}
+              icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+              checkedIcon={<CheckBoxIcon fontSize="large" />}
+            />
+            <Typography>{props.name}</Typography>
+          </div>
         </FormGroup>
         {!!props.details && (
           <Typography
